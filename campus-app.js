@@ -1,6 +1,7 @@
 const STORAGE_KEY = 'campus_marketplace_session';
 const CART_KEY = 'campus_marketplace_cart';
 const WISHLIST_KEY = 'campus_marketplace_wishlist';
+const ADMIN_CREDENTIALS = { email: 'petermugambi10296@gmail.com', password: 'peter@10296' };
 
 const products = [
   {
@@ -374,6 +375,14 @@ function handleLogin(event) {
   const role = document.getElementById('auth-role').value;
 
   if (!name) return alert('Please enter your name.');
+  
+  // Admin authentication validation
+  if (role === 'admin') {
+    if (email !== ADMIN_CREDENTIALS.email) return alert('Invalid admin email.');
+    const password = prompt('Enter admin password:');
+    if (password !== ADMIN_CREDENTIALS.password) return alert('Invalid admin password.');
+  }
+
   session = { name, email, phone, role, id: `user-${Date.now()}` };
   saveSession(session);
   renderSessionPanel();
