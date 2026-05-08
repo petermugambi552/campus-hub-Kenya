@@ -1,41 +1,59 @@
-# Campus Hotel Connect
+# CampusHub Kenya
 
-A modern full-stack business website connecting students with nearby hotels, restaurants, cafeterias, and shops around schools/universities.
+CampusHub Kenya is a mobile-first multi-vendor campus marketplace designed for university and college students in Kenya. The platform combines online shopping, student reselling, hotel and restaurant listings, local delivery, and business management into one ecosystem.
 
-## Features
+## Key Features
 
-- **User Types**: Students/Customers, Hotel Owners/Business Owners, Admins
-- **Student Login**: Simple login with name and optional student ID
-- **Browse Services**: Search and browse food, drinks, snacks, accommodation, and services
-- **Hotel Owner Management**: Add and manage hotel/service listings
-- **Admin Dashboard**: Overview of listings and user records
+- Multi-user authentication: student, seller, hotel owner, delivery rider, admin
+- Product marketplace with search, category filters, cart, wishlist, and M-Pesa checkout simulation
+- Student reselling system for second-hand items and campus agents
+- Hotel and restaurant listing section with menus and delivery options
+- Role-based dashboard demo panels for students, sellers, riders, and admins
+- Mobile-first responsive UI with Kenyan marketplace styling
+- Backend API scaffolding with Express.js, plus database schema documentation
 
-## Technologies
+## Project Structure
 
-- HTML5
-- CSS3 (Modern dark theme)
-- JavaScript (ES6+)
-- localStorage for data persistence
+- `index.html` — main CampusHub Kenya landing page and platform prototype
+- `campus.css` — responsive marketplace styles
+- `campus-app.js` — marketplace interaction logic, session state, cart and dashboard handling
+- `server.js` — Node.js API scaffold for product, auth, and checkout endpoints
+- `package.json` — backend dependencies and start script
+- `DB_SCHEMA.md` — database schema design for users, products, orders, delivery, and supplier integrations
+- `hotel.html` — previous Campus Hotel Connect prototype page
 
 ## Getting Started
 
-1. Clone the repository
-2. Open `hotel.html` in your browser
-3. Start using the app!
+### Frontend
+1. Open `index.html` in your browser
+2. Use the login panel to switch roles and explore the dashboards
+3. Search products, add to cart, and submit checkout requests
 
-## Usage
+### Backend
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
+2. Start the API server:
+   ```bash
+   npm start
+   ```
+3. API will run on `http://localhost:4000`
 
-- **Students**: Login as student, browse and search for services, add favorites
-- **Hotel Owners**: Login as owner, add/manage your business listings
-- **Admins**: Login as admin, view stats and reset data
+## API Endpoints
 
-## Live Demo
+- `GET /api/status` — health check
+- `GET /api/products` — sample product list
+- `POST /api/auth/login` — mock login endpoint
+- `POST /api/checkout` — mock checkout endpoint
 
-[View the live website](https://your-github-username.github.io/campus-hotel-connect/)
+## Deployment
 
-## Contributing
+This project can be hosted as a static site for the frontend and on services like Render, Railway or AWS for the backend API.
 
-Feel free to fork and contribute!
+## Notes
+
+The current implementation is a prototype. It includes frontend marketplace behavior and backend scaffolding, ready for further extension into a full production platform with real authentication, payment integration, and database persistence.
 
 ## License
 
