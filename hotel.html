@@ -1,0 +1,154 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Campus Hotel Connect</title>
+  <link rel="stylesheet" href="mystyle.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Campus Hotel Connect</h1>
+      <p>A marketplace for students, hotel owners, and campus businesses to manage services, meals, stays, and events near schools and universities.</p>
+      <div class="hero-actions">
+        <a class="btn" href="#login">Login Now</a>
+        <a class="btn" href="#browse">Browse Services</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="login" class="view-section" aria-labelledby="login-title">
+      <div class="form-panel">
+        <h2 id="login-title">Quick Student Login</h2>
+        <p>Login with your name and optional student ID. Choose your profile type to start browsing or managing campus hotel services.</p>
+        <form id="login-form">
+          <div class="input-group">
+            <label for="login-name">Name</label>
+            <input type="text" id="login-name" placeholder="Enter your name" required />
+          </div>
+          <div class="input-group">
+            <label for="login-id">Student ID (optional)</label>
+            <input type="text" id="login-id" placeholder="E.g. 603161975" />
+          </div>
+          <div class="input-group">
+            <label>Choose your role</label>
+            <div style="display:flex;gap:12px;flex-wrap:wrap;">
+              <label><input type="radio" name="role" value="student" checked /> Student / Customer</label>
+              <label><input type="radio" name="role" value="owner" /> Hotel Owner</label>
+              <label><input type="radio" name="role" value="admin" /> Admin</label>
+            </div>
+          </div>
+          <button class="btn" type="submit">Enter Campus Connect</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="view-student" class="view-section hidden" aria-labelledby="student-title">
+      <div class="status-bar">
+        <div id="user-greeting" class="status-title"></div>
+        <div>
+          <strong>Role:</strong> <span id="current-role"></span> •
+          <strong>Name:</strong> <span id="user-name"></span> •
+          <strong>ID:</strong> <span id="user-id"></span>
+        </div>
+        <button id="logout-button" class="btn" style="margin-top:16px;">Logout</button>
+      </div>
+
+      <section class="form-panel">
+        <h2 id="browse">Browse Hotels & Campus Services</h2>
+        <p>Search by hotel name, meal type, snack, accommodation, or service.</p>
+        <input id="hotel-search" type="search" placeholder="Search food, drinks, rooms, catering, delivery..." />
+      </section>
+
+      <section class="card-grid" id="hotel-cards"></section>
+    </section>
+
+    <section id="view-owner" class="view-section hidden" aria-labelledby="owner-title">
+      <div class="status-bar">
+        <div id="user-greeting"></div>
+        <div>
+          <strong>Role:</strong> <span id="current-role"></span> •
+          <strong>Name:</strong> <span id="user-name"></span>
+        </div>
+        <button id="logout-button" class="btn" style="margin-top:16px;">Logout</button>
+      </div>
+
+      <div class="split-grid">
+        <div class="form-panel">
+          <h2 id="owner-title">Manage Your Hotel Listing</h2>
+          <p>Add a service provider, food outlet, or accommodation option for students to browse.</p>
+          <form id="owner-hotel-form">
+            <div class="input-group">
+              <label for="owner-hotel-name">Business Name</label>
+              <input id="owner-hotel-name" type="text" placeholder="Hotel or cafe name" required />
+            </div>
+            <div class="input-group">
+              <label for="owner-hotel-category">Category</label>
+              <select id="owner-hotel-category">
+                <option value="Accommodation">Accommodation</option>
+                <option value="Food">Food</option>
+                <option value="Drinks">Drinks</option>
+                <option value="Services">Services</option>
+                <option value="Snacks">Snacks</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label for="owner-hotel-description">Description</label>
+              <textarea id="owner-hotel-description" placeholder="Describe your service or menu"></textarea>
+            </div>
+            <div class="input-group">
+              <label for="owner-hotel-services">Services (comma separated)</label>
+              <input id="owner-hotel-services" type="text" placeholder="Coffee, Wi-Fi, student meals" required />
+            </div>
+            <button class="btn" type="submit">Save Listing</button>
+          </form>
+        </div>
+
+        <div class="owner-item" style="flex-direction:column;gap:16px;">
+          <h2>Current Listings</h2>
+          <div id="owner-hotel-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="view-admin" class="view-section hidden" aria-labelledby="admin-title">
+      <div class="status-bar">
+        <div id="user-greeting"></div>
+        <div>
+          <strong>Role:</strong> <span id="current-role"></span> •
+          <strong>Name:</strong> <span id="user-name"></span>
+        </div>
+        <button id="logout-button" class="btn" style="margin-top:16px;">Logout</button>
+      </div>
+
+      <div class="split-grid">
+        <div class="admin-panel">
+          <h2 id="admin-title">Admin Overview</h2>
+          <p>Review active hotel service listings and registered sessions.</p>
+          <div class="form-panel">
+            <p><strong>Total listings:</strong> <span id="admin-hotel-count"></span></p>
+            <p><strong>Total student records:</strong> <span id="admin-student-count"></span></p>
+            <button id="admin-reset-data" class="btn danger">Reset Application Data</button>
+          </div>
+        </div>
+        <div class="admin-panel">
+          <h3>Hotel Listings</h3>
+          <ul id="admin-hotel-list"></ul>
+          <h3 style="margin-top:20px;">Student Records</h3>
+          <ul id="admin-student-list"></ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>Campus Hotel Connect &copy; 2026. Designed to connect students with nearby hotels and campus businesses.</p>
+    </div>
+  </footer>
+
+  <script src="hotel-app.js"></script>
+</body>
+</html>
