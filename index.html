@@ -16,9 +16,9 @@
           <a href="#marketplace">Marketplace</a>
           <a href="#hotels">Hotels</a>
           <a href="#dashboards">Dashboards</a>
-          <a href="#about">About</a>
+          <a href="#community">Community</a>
+          <a href="#business">Business</a>
           <a href="#contact">Contact</a>
-          <a href="#faq">FAQ</a>
         </div>
       </nav>
     </div>
@@ -63,8 +63,16 @@
               <input id="auth-email" type="email" placeholder="jane@example.com" />
             </div>
             <div class="form-group">
+              <label for="auth-password">Password</label>
+              <input id="auth-password" type="password" placeholder="Enter password" />
+            </div>
+            <div class="form-group">
               <label for="auth-phone">Phone</label>
               <input id="auth-phone" type="tel" placeholder="+254 700 000000" />
+            </div>
+            <div class="form-group">
+              <label for="auth-avatar">Profile Image URL</label>
+              <input id="auth-avatar" type="url" placeholder="https://example.com/avatar.jpg" />
             </div>
             <div class="form-group">
               <label>Account Type</label>
@@ -76,9 +84,10 @@
                 <option value="admin">Admin</option>
               </select>
             </div>
-            <button class="btn-primary" type="submit">Login & Continue</button>
+            <button class="btn-primary" type="submit">Login / Register</button>
           </form>
           <div id="user-status" style="margin-top:18px;color:var(--muted);"></div>
+          <button id="logout-button" class="btn-secondary" style="margin-top:16px;display:none;">Logout</button>
         </div>
       </div>
     </section>
@@ -121,8 +130,8 @@
           <p class="section-intro">Shop categories, compare products, and order with M-Pesa support.</p>
         </div>
       </div>
-      <div class="search-bar">
-        <input id="product-search" type="search" placeholder="Search products, categories or sellers" />
+      <div class="search-bar marketplace-filters">
+        <input id="product-search" type="search" placeholder="Search products, categories, campus or sellers" />
         <select id="category-filter">
           <option value="All">All categories</option>
           <option value="Electronics">Electronics</option>
@@ -136,7 +145,19 @@
           <option value="Gaming Accessories">Gaming Accessories</option>
           <option value="Second-Hand Items">Second-Hand Items</option>
         </select>
+        <div class="price-filter">
+          <input id="price-min" type="number" placeholder="Min price" />
+          <input id="price-max" type="number" placeholder="Max price" />
+        </div>
+        <select id="campus-filter">
+          <option value="All">All campuses</option>
+          <option value="Karatina">Karatina</option>
+          <option value="Nyeri">Nyeri</option>
+          <option value="Embu">Embu</option>
+        </select>
+        <button class="btn-secondary" type="button" onclick="applyMarketplaceFilters()">Apply filters</button>
       </div>
+      <div id="category-list" class="category-tabs"></div>
       <div class="cards-grid" id="marketplace-products"></div>
     </section>
 
@@ -165,6 +186,13 @@
           <p class="section-intro">Role-specific control panels for students, sellers, delivery riders, and admins.</p>
         </div>
       </div>
+      <div class="dashboard-tabs">
+        <button type="button" class="dashboard-tab active" data-tab="student" onclick="switchDashboardTab('student')">Student</button>
+        <button type="button" class="dashboard-tab" data-tab="seller" onclick="switchDashboardTab('seller')">Seller</button>
+        <button type="button" class="dashboard-tab" data-tab="hotel" onclick="switchDashboardTab('hotel')">Hotel</button>
+        <button type="button" class="dashboard-tab" data-tab="delivery" onclick="switchDashboardTab('delivery')">Delivery</button>
+        <button type="button" class="dashboard-tab" data-tab="admin" onclick="switchDashboardTab('admin')">Admin</button>
+      </div>
       <div class="profile-grid">
         <div class="profile-card">
           <div class="profile-avatar">CH</div>
@@ -176,6 +204,59 @@
         <div class="dashboard-panel" id="seller-dashboard-content"></div>
         <div class="dashboard-panel" id="delivery-dashboard-content"></div>
         <div class="dashboard-panel" id="admin-dashboard-content"></div>
+      </div>
+    </section>
+
+    <section id="community" class="section-panel">
+      <div class="section-title">
+        <div>
+          <h2>Community Chat & Campus Board</h2>
+          <p class="section-intro">Share grievances, event news, student gigs, notes exchange and service listings with fellow comrades.</p>
+        </div>
+      </div>
+      <div class="community-grid">
+        <div class="dashboard-panel chat-panel">
+          <h3>Campus Chat Space</h3>
+          <div id="chat-messages" class="chat-messages"></div>
+          <form id="chat-form" class="chat-form">
+            <input id="chat-name" type="text" placeholder="Your name or alias" required />
+            <input id="chat-text" type="text" placeholder="Share a message, complaint or update" required />
+            <button class="btn-primary" type="submit">Post</button>
+          </form>
+        </div>
+        <div class="dashboard-panel event-panel">
+          <h3>Campus Events & Jobs</h3>
+          <ul class="dashboard-list" id="events-list"></ul>
+          <button class="btn-secondary" type="button" onclick="loadCommunityEvents()">Load events & gigs</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="business" class="section-panel">
+      <div class="section-title">
+        <div>
+          <h2>Business Owner Portal</h2>
+          <p class="section-intro">Register a business, list services, add location and distance from Karatina University main gate.</p>
+        </div>
+      </div>
+      <div class="dashboard-grid">
+        <div class="dashboard-panel">
+          <h3>Register Your Business</h3>
+          <form id="business-registration-form">
+            <div class="form-group"><label>Business Name</label><input id="business-name" type="text" required /></div>
+            <div class="form-group"><label>Service Type</label><input id="business-service" type="text" placeholder="Food, transport, study notes, events" required /></div>
+            <div class="form-group"><label>Location</label><input id="business-location" type="text" placeholder="Karatina Nyeri" required /></div>
+            <div class="form-group"><label>Distance from University Gate</label><input id="business-distance" type="text" placeholder="e.g. 2.1 km" required /></div>
+            <div class="form-group"><label>Social Link</label><input id="business-social" type="url" placeholder="https://wa.me/... or Instagram" /></div>
+            <button class="btn-primary" type="submit">Register Business</button>
+          </form>
+        </div>
+        <div class="dashboard-panel">
+          <h3>Map & Campus Guide</h3>
+          <p class="section-intro">Find directions to Karatina University and nearby trusted services.</p>
+          <div class="map-frame">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d19899.338072334936!2d37.07930342843232!3d-0.4284812445652144!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182b5f4868281529%3A0xefd6d5ca263e108!2sKaratina%20University!5e0!3m2!1sen!2ske!4v1710000000000!5m2!1sen!2ske" width="100%" height="300" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+        </div>
       </div>
     </section>
 
@@ -202,7 +283,27 @@
             <label for="checkout-address">Delivery Address</label>
             <textarea id="checkout-address" placeholder="Dorm room, campus zone" required></textarea>
           </div>
-          <button class="btn-primary" type="submit">Confirm Order with M-Pesa</button>
+          <div class="form-group">
+            <label for="checkout-method">Payment Method</label>
+            <select id="checkout-method">
+              <option value="mpesa">M-Pesa STK Push</option>
+              <option value="card">Card / Mobile Money</option>
+              <option value="pickup">Pickup Station</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="checkout-promo">Promo Code</label>
+            <input id="checkout-promo" type="text" placeholder="Enter promo code" />
+          </div>
+          <div class="form-group">
+            <label for="checkout-pickup">Pickup Station</label>
+            <select id="checkout-pickup">
+              <option value="Campus Gate">Campus Gate</option>
+              <option value="Hostel Loop">Hostel Loop</option>
+              <option value="Main Library">Main Library</option>
+            </select>
+          </div>
+          <button class="btn-primary" type="submit">Confirm Order</button>
         </form>
       </div>
     </section>

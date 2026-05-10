@@ -313,6 +313,51 @@ nav {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
+.dashboard-tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.dashboard-tab {
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 999px;
+  padding: 12px 18px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.dashboard-tab.active {
+  background: linear-gradient(135deg, #7c3aed, #9333ea);
+  color: #fff;
+  border-color: transparent;
+}
+
+.business-card,
+.admin-list-item,
+.offer-item {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(148, 163, 184, 0.1);
+  border-radius: 18px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.business-card h4,
+.admin-list-item h4 {
+  margin: 0 0 8px;
+}
+
+.business-card p,
+.admin-list-item p,
+.offer-item p {
+  margin: 6px 0;
+  color: var(--muted);
+}
+
 .profile-card {
   display: flex;
   align-items: flex-start;
@@ -360,6 +405,19 @@ nav {
 .offer-item p {
   margin: 4px 0;
   color: var(--muted);
+}
+
+.order-confirmation {
+  background: var(--primary-soft);
+  border: 1px solid var(--primary);
+  border-radius: 20px;
+  padding: 24px;
+  text-align: center;
+}
+
+.order-confirmation h3 {
+  color: var(--success);
+  margin-bottom: 16px;
 }
 
 .contact-grid {
