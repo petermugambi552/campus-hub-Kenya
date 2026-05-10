@@ -246,6 +246,33 @@ nav {
   min-width: 140px;
 }
 
+.manual-payment-bar {
+  margin-top: 24px;
+  border-top: 1px solid rgba(148, 163, 184, 0.12);
+  padding-top: 18px;
+}
+
+.manual-payment-bar h4 {
+  margin: 0 0 12px;
+}
+
+.manual-payment-bar p {
+  margin: 0 0 16px;
+  color: var(--muted);
+}
+
+.manual-payment-bar .form-group {
+  margin-bottom: 14px;
+}
+
+.manual-payment-bar button {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.manual-payment-bar .business-card {
+  margin-top: 16px;
+}
+
 .cards-grid {
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
 }

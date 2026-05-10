@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CampusHub Kenya | Multi-Vendor Marketplace</title>
+  <title>KARATINA CAMPUSHUB KENYA | Campus Marketplace</title>
   <link rel="stylesheet" href="campus.css" />
 </head>
 <body>
   <header class="header-shell">
     <div class="container">
       <nav>
-        <div class="brand">CampusHub Kenya</div>
+        <div class="brand">KARATINA CAMPUSHUB KENYA</div>
         <div class="nav-links">
           <a href="#home">Home</a>
           <a href="#marketplace">Marketplace</a>
@@ -28,7 +28,7 @@
     <section id="home" class="hero">
       <div class="hero-grid">
         <div class="hero-copy">
-          <h1>CampusHub Kenya — Your campus marketplace for shopping, delivery and reselling.</h1>
+          <h1>KARATINA CAMPUSHUB KENYA — Your campus marketplace for shopping, delivery and reselling.</h1>
           <p>A mobile-first platform for students, sellers, hotels, and delivery riders to trade products, order food, manage shops, and receive orders within 3 days.</p>
           <div class="cta-buttons">
             <a class="btn-primary" href="#login-panel">Get Started</a>
@@ -305,6 +305,18 @@
           </div>
           <button class="btn-primary" type="submit">Confirm Order</button>
         </form>
+        <div class="manual-payment-bar">
+          <h4>Manual Payment Entry</h4>
+          <p>Record manual payments and process Safaricom Daraja STK Push via till <strong>5438290</strong>.</p>
+          <form id="manual-payment-form">
+            <div class="form-group"><label>Amount (KSh)</label><input id="manual-payment-amount" type="number" min="1" required /></div>
+            <div class="form-group"><label>Phone Number</label><input id="manual-payment-phone" type="tel" placeholder="+254 700 000000" required /></div>
+            <div class="form-group"><label>Payment Type</label><select id="manual-payment-type"><option value="mpesa">M-Pesa Daraja</option><option value="cash">Cash</option><option value="card">Card / Mobile Money</option></select></div>
+            <div class="form-group"><label>Reference / Notes</label><input id="manual-payment-notes" type="text" placeholder="Payment reference" /></div>
+            <button class="btn-secondary" type="submit">Add Payment</button>
+          </form>
+          <div id="manual-payment-list"></div>
+        </div>
       </div>
     </section>
 

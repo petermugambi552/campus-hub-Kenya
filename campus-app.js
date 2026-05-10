@@ -11,6 +11,8 @@ const REFERRALS_KEY = 'campus_marketplace_referrals';
 const WITHDRAWALS_KEY = 'campus_marketplace_withdrawals';
 const ORDERS_KEY = 'campus_marketplace_orders';
 const DELIVERIES_KEY = 'campus_marketplace_deliveries';
+const PAYMENTS_KEY = 'campus_marketplace_payments';
+const DARJA_TILL_NUMBER = '5438290';
 const ADMIN_CREDENTIALS = { email: 'petermugambi10296@gmail.com', password: 'peter@10296' };
 
 const sampleUsers = [
@@ -63,6 +65,7 @@ let chats = getChats();
 let events = getEvents();
 let referrals = getReferrals();
 let withdrawals = getWithdrawals();
+let payments = getPayments();
 let pendingReferrer = null;
 
 
@@ -276,6 +279,21 @@ function saveDeliveries(deliveries) {
   localStorage.setItem(DELIVERIES_KEY, JSON.stringify(deliveries));
 }
 
+function getPayments() {
+  const raw = localStorage.getItem(PAYMENTS_KEY);
+  if (!raw) return [];
+  try {
+    const data = JSON.parse(raw);
+    return Array.isArray(data) ? data : [];
+  } catch (err) {
+    return [];
+  }
+}
+
+function savePayments(items) {
+  localStorage.setItem(PAYMENTS_KEY, JSON.stringify(items));
+}
+
 function initApp() {
   session = getSession();
   cart = getCart();
@@ -328,6 +346,7 @@ function initApp() {
 
   document.body.addEventListener('submit', event => {
     if (event.target.id === 'checkout-form') return handleCheckout(event);
+    if (event.target.id === 'manual-payment-form') return handleManualPayment(event);
     if (event.target.id === 'resell-form') return handleResellProduct(event);
     if (event.target.id === 'admin-add-user-form') return handleAdminAddUser(event);
     if (event.target.id === 'admin-add-product-form') return handleAdminAddProduct(event);
@@ -341,6 +360,7 @@ function initApp() {
   renderHotelCards(getHotels());
   renderSessionPanel();
   renderCartSummary();
+  renderManualPayments();
   renderDashboards();
   renderChatMessages();
   loadCommunityEvents();
@@ -916,7 +936,7 @@ function initiateSTKPush(phone, amount, name, address, order) {
 
   // Mock STK Push delay
   setTimeout(() => {
-    const confirmed = confirm(`M-Pesa STK Push sent to ${phone}.\nAmount: KSh ${amount.toLocaleString()}\nTill Number: 5438290\n\nPlease enter your M-Pesa PIN on your phone to complete payment.`);
+    const confirmed = confirm(`M-Pesa STK Push sent to ${phone}.\nAmount: KSh ${amount.toLocaleString()}\nTill Number: ${DARJA_TILL_NUMBER}\n\nPlease enter your M-Pesa PIN on your phone to complete payment.`);
     if (confirmed) {
       order.status = 'paid';
       completeOrder(order);
@@ -992,6 +1012,49 @@ function handleResellProduct(event) {
   renderProductCards(products);
   event.target.reset();
   showToast('Your resale product is now available for students.');
+}
+
+function handleManualPayment(event) {
+  event.preventDefault();
+  const amount = parseInt(document.getElementById('manual-payment-amount').value.trim(), 10);
+  const phone = document.getElementById('manual-payment-phone').value.trim();
+  const type = document.getElementById('manual-payment-type').value;
+  const notes = document.getElementById('manual-payment-notes').value.trim();
+  if (!amount || !phone) return alert('Enter both phone number and amount to record payment.');
+
+  const paymentRecord = {
+    id: `pay-${Date.now()}`,
+    amount,
+    phone,
+    type,
+    notes: notes || `${type === 'mpesa' ? 'Daraja STK Push' : type}`,
+    till: type === 'mpesa' ? DARJA_TILL_NUMBER : '',
+    timestamp: new Date().toLocaleString()
+  };
+  payments.unshift(paymentRecord);
+  savePayments(payments);
+  renderManualPayments();
+  event.target.reset();
+  showToast('Manual payment recorded successfully.');
+}
+
+function renderManualPayments() {
+  const container = document.getElementById('manual-payment-list');
+  if (!container) return;
+  if (!payments.length) {
+    container.innerHTML = '<p class="section-intro">No manual payments recorded yet.</p>';
+    return;
+  }
+  container.innerHTML = payments.slice(0, 6).map(payment => `
+    <div class="business-card">
+      <p><strong>Amount:</strong> KSh ${payment.amount.toLocaleString()}</p>
+      <p><strong>Phone:</strong> ${payment.phone}</p>
+      <p><strong>Type:</strong> ${payment.type}</p>
+      ${payment.till ? `<p><strong>Till:</strong> ${payment.till}</p>` : ''}
+      <p><strong>Notes:</strong> ${payment.notes}</p>
+      <p><small>${payment.timestamp}</small></p>
+    </div>
+  `).join('');
 }
 
 function handleAdminAddUser(event) {
